@@ -1,0 +1,2526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Crime Record & Police Complaint Management System</title>
+
+<style>
+
+/* =========================
+   GENERAL
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    color:#222;
+}
+
+header{
+    background:#102a43;
+    color:white;
+    padding:16px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-size:21px;
+    font-weight:bold;
+}
+
+nav button{
+    background:none;
+    border:none;
+    color:white;
+    margin-left:8px;
+    padding:9px;
+    cursor:pointer;
+    font-size:14px;
+}
+
+nav button:hover{
+    color:#ffb703;
+}
+
+.logout{
+    background:#d90429 !important;
+    border-radius:5px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    background:linear-gradient(135deg,#102a43,#243b53);
+    color:white;
+    text-align:center;
+    padding:80px 20px;
+}
+
+.hero h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:18px;
+    margin-bottom:25px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn{
+    background:#ffb703;
+    color:#111;
+    border:none;
+    padding:12px 22px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+    margin:5px;
+}
+
+.btn:hover{
+    opacity:.9;
+}
+
+.blue-btn{
+    background:#0077b6;
+    color:white;
+}
+
+.red-btn{
+    background:#d90429;
+    color:white;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+    padding:45px 7%;
+}
+
+.title{
+    text-align:center;
+    color:#102a43;
+    margin-bottom:30px;
+}
+
+.section-note{
+    text-align:center;
+    color:#5b6770;
+    margin-bottom:25px;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.cards{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 3px 12px rgba(0,0,0,.1);
+}
+
+.card h3{
+    margin-bottom:10px;
+    color:#102a43;
+}
+
+
+/* =========================
+   WORKFLOW
+========================= */
+
+.workflow{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+}
+
+.workflow-step{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 3px 12px rgba(0,0,0,.08);
+    border-top:4px solid #0077b6;
+}
+
+.num{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#e8f4fb;
+    color:#0077b6;
+    display:grid;
+    place-items:center;
+    margin:auto;
+    margin-bottom:10px;
+    font-weight:bold;
+}
+
+
+/* =========================
+   FORMS
+========================= */
+
+.form-box{
+    background:white;
+    max-width:850px;
+    margin:auto;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 3px 15px rgba(0,0,0,.1);
+}
+
+.row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.form-group{
+    margin-bottom:17px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:7px;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    font-size:15px;
+}
+
+textarea{
+    height:120px;
+    resize:vertical;
+}
+
+
+/* =========================
+   ALERT
+========================= */
+
+.alert{
+    padding:15px;
+    border-radius:6px;
+    margin-bottom:20px;
+    display:none;
+}
+
+.success{
+    background:#d1e7dd;
+    color:#0f5132;
+}
+
+.error{
+    background:#f8d7da;
+    color:#842029;
+}
+
+
+/* =========================
+   SEARCH RESULT
+========================= */
+
+.result{
+    display:none;
+    background:white;
+    padding:22px;
+    margin-top:20px;
+    border-radius:10px;
+    border-left:5px solid #0077b6;
+    box-shadow:0 3px 12px rgba(0,0,0,.09);
+}
+
+
+/* =========================
+   ADMIN DASHBOARD
+========================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:
+    repeat(auto-fit,minmax(170px,1fr));
+    gap:18px;
+    margin-bottom:30px;
+}
+
+.stat{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 3px 10px rgba(0,0,0,.1);
+}
+
+.stat h2{
+    color:#0077b6;
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.admin-note{
+    background:#eaf4ff;
+    border-left:4px solid #0077b6;
+    padding:15px;
+    margin-bottom:20px;
+    border-radius:6px;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-box{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+}
+
+th,
+td{
+    padding:11px;
+    border:1px solid #ddd;
+    text-align:left;
+    white-space:nowrap;
+}
+
+th{
+    background:#102a43;
+    color:white;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    z-index:2000;
+    padding:30px;
+    overflow:auto;
+}
+
+.modal-content{
+    background:white;
+    max-width:700px;
+    margin:60px auto;
+    padding:30px;
+    border-radius:10px;
+}
+
+.login-modal{
+    max-width:450px;
+}
+
+.close{
+    float:right;
+    font-size:28px;
+    cursor:pointer;
+}
+
+.login-help{
+    color:#5b6770;
+    margin:10px 0 22px;
+}
+
+
+/* =========================
+   RECEIPT
+========================= */
+
+.receipt{
+    border:2px solid #102a43;
+    padding:30px;
+    background:white;
+}
+
+.receipt h2,
+.receipt h3{
+    text-align:center;
+}
+
+.receipt hr{
+    margin:15px 0;
+}
+
+.receipt p{
+    margin:10px 0;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    background:#102a43;
+    color:white;
+    text-align:center;
+    padding:25px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    header{
+        flex-direction:column;
+        gap:10px;
+    }
+
+    nav{
+        text-align:center;
+    }
+
+    nav button{
+        margin:2px;
+    }
+
+    .hero h1{
+        font-size:29px;
+    }
+
+    .row{
+        grid-template-columns:1fr;
+    }
+}
+
+
+/* =========================
+   PRINT
+========================= */
+
+@media print{
+
+    body *{
+        visibility:hidden;
+    }
+
+    #printArea,
+    #printArea *{
+        visibility:visible;
+    }
+
+    #printArea{
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+<div class="logo">
+🚔 Crime Record System
+</div>
+
+<nav>
+
+<button onclick="showPage('home')">
+Home
+</button>
+
+<button onclick="showPage('complaint')">
+Register Complaint
+</button>
+
+<button onclick="showPage('fir')">
+FIR Registration
+</button>
+
+<button onclick="showPage('track')">
+Search Complaint
+</button>
+
+<button onclick="openAdminLogin()">
+Admin
+</button>
+
+<button class="logout" onclick="logout()">
+Logout
+</button>
+
+</nav>
+
+</header>
+
+
+<!-- ================= HOME ================= -->
+
+<div id="home" class="page active">
+
+<div class="hero">
+
+<h1>
+Crime Record & Police Complaint Management System
+</h1>
+
+<p>
+A digital platform to register, track and manage police complaints.
+</p>
+
+<button class="btn"
+onclick="showPage('complaint')">
+📝 Register Complaint
+</button>
+
+<button class="btn blue-btn"
+onclick="showPage('track')">
+🔍 Search Complaint
+</button>
+
+</div>
+
+
+<section>
+
+<h2 class="title">
+System Features
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>📝 Complaint Registration</h3>
+<p>
+Citizens can register complaints online.
+</p>
+</div>
+
+<div class="card">
+<h3>📄 FIR Registration</h3>
+<p>
+Police can record FIR information.
+</p>
+</div>
+
+<div class="card">
+<h3>🔍 Complaint Search</h3>
+<p>
+Search complaint using Complaint ID.
+</p>
+</div>
+
+<div class="card">
+<h3>👮 Admin Dashboard</h3>
+<p>
+Police can manage complaints and records.
+</p>
+</div>
+
+<div class="card">
+<h3>📊 Crime Statistics</h3>
+<p>
+View complaint statistics.
+</p>
+</div>
+
+<div class="card">
+<h3>🧾 Print Receipt</h3>
+<p>
+Print complaint and FIR receipt.
+</p>
+</div>
+
+</div>
+
+</section>
+
+
+<section>
+
+<h2 class="title">
+How the System Works
+</h2>
+
+<p class="section-note">
+Simple workflow for citizens and police administration.
+</p>
+
+<div class="workflow">
+
+<div class="workflow-step">
+<div class="num">1</div>
+<h3>Register</h3>
+<p>
+Citizen submits a complaint.
+</p>
+</div>
+
+<div class="workflow-step">
+<div class="num">2</div>
+<h3>Get ID</h3>
+<p>
+System generates Complaint ID.
+</p>
+</div>
+
+<div class="workflow-step">
+<div class="num">3</div>
+<h3>Track</h3>
+<p>
+Complaint can be searched using ID.
+</p>
+</div>
+
+<div class="workflow-step">
+<div class="num">4</div>
+<h3>Manage</h3>
+<p>
+Admin manages complaint records.
+</p>
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- ================= COMPLAINT ================= -->
+
+<div id="complaint" class="page">
+
+<section>
+
+<h2 class="title">
+📝 Register Police Complaint
+</h2>
+
+<div class="form-box">
+
+<div id="complaintAlert"
+class="alert">
+</div>
+
+<form id="complaintForm">
+
+<div class="row">
+
+<div class="form-group">
+
+<label>Full Name</label>
+
+<input
+type="text"
+id="cName"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Mobile Number</label>
+
+<input
+type="tel"
+id="cMobile"
+pattern="[0-9]{10}"
+placeholder="10 digit number"
+required>
+
+</div>
+
+</div>
+
+
+<div class="row">
+
+<div class="form-group">
+
+<label>Email</label>
+
+<input
+type="email"
+id="cEmail"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Crime Type</label>
+
+<select id="cCrime" required>
+
+<option value="">
+Select Crime Type
+</option>
+
+<option>Theft</option>
+<option>Cyber Crime</option>
+<option>Fraud</option>
+<option>Missing Person</option>
+<option>Assault</option>
+<option>Harassment</option>
+<option>Other</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div class="row">
+
+<div class="form-group">
+
+<label>Incident Location</label>
+
+<input
+type="text"
+id="cLocation"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Date of Incident</label>
+
+<input
+type="date"
+id="cDate"
+required>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Description</label>
+
+<textarea
+id="cDescription"
+required>
+</textarea>
+
+</div>
+
+
+<button
+class="btn"
+type="submit">
+
+Register Complaint
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- ================= FIR ================= -->
+
+<div id="fir" class="page">
+
+<section>
+
+<h2 class="title">
+📄 FIR Registration
+</h2>
+
+<div class="form-box">
+
+<div id="firAlert"
+class="alert">
+</div>
+
+<form id="firForm">
+
+<div class="form-group">
+
+<label>Complainant Name</label>
+
+<input
+type="text"
+id="fName"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Police Station</label>
+
+<input
+type="text"
+id="fStation"
+required>
+
+</div>
+
+
+<div class="form-group">
+
+<label>Crime Type</label>
+
+<select id="fCrime" required>
+
+<option value="">
+Select Crime Type
+</option>
+
+<option>Theft</option>
+<option>Cyber Crime</option>
+<option>Fraud</option>
+<option>Missing Person</option>
+<option>Assault</option>
+<option>Harassment</option>
+<option>Other</option>
+
+</select>
+
+</div>
+
+
+<div class="row">
+
+<div class="form-group">
+
+<label>Incident Date</label>
+
+<input
+type="date"
+id="fDate"
+required>
+
+</div>
+
+<div class="form-group">
+
+<label>Incident Location</label>
+
+<input
+type="text"
+id="fLocation"
+required>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>FIR Description</label>
+
+<textarea
+id="fDescription"
+required>
+</textarea>
+
+</div>
+
+
+<button
+class="btn"
+type="submit">
+
+Register FIR
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- ================= TRACK ================= -->
+
+<div id="track" class="page">
+
+<section>
+
+<h2 class="title">
+🔍 Search / Track Complaint
+</h2>
+
+<div class="form-box">
+
+<label>
+Complaint ID / FIR Number
+</label>
+
+<input
+type="text"
+id="searchId"
+placeholder="Example: CR-1001 or FIR-5001">
+
+<button
+class="btn"
+onclick="searchRecord()">
+
+Search
+
+</button>
+
+<div
+id="searchResult"
+class="result">
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- ================= ADMIN ================= -->
+
+<div id="admin" class="page">
+
+<section>
+
+<h2 class="title">
+👮 Police Admin Dashboard
+</h2>
+
+<div class="admin-note">
+<strong>🔐 Admin Area:</strong>
+Only authorized admin/police users can view and manage all complaint records.
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+<h2 id="total">0</h2>
+<p>Total Complaints</p>
+</div>
+
+<div class="stat">
+<h2 id="pending">0</h2>
+<p>Pending</p>
+</div>
+
+<div class="stat">
+<h2 id="investigating">0</h2>
+<p>Investigating</p>
+</div>
+
+<div class="stat">
+<h2 id="resolved">0</h2>
+<p>Resolved</p>
+</div>
+
+<div class="stat">
+<h2 id="firCount">0</h2>
+<p>Total FIRs</p>
+</div>
+
+</div>
+
+
+<h3 style="margin-bottom:15px;">
+Complaint Records
+</h3>
+
+<div class="table-box">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Crime</th>
+<th>Location</th>
+<th>Date</th>
+<th>Status</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="adminTable">
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- ================= ADMIN LOGIN ================= -->
+
+<div id="adminLoginModal" class="modal">
+
+<div class="modal-content login-modal">
+
+<span
+class="close"
+onclick="closeAdminLogin()">
+&times;
+</span>
+
+<h2>
+🔐 Admin Login
+</h2>
+
+<p class="login-help">
+Only authorized police/admin users can access complaint records.
+</p>
+
+<div
+id="loginAlert"
+class="alert">
+</div>
+
+
+<div class="form-group">
+
+<label>
+Username
+</label>
+
+<input
+type="text"
+id="adminUsername"
+placeholder="Enter admin username"
+autocomplete="username">
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+Password
+</label>
+
+<input
+type="password"
+id="adminPassword"
+placeholder="Enter password"
+autocomplete="current-password">
+
+</div>
+
+
+<button
+class="btn blue-btn"
+onclick="adminLogin()">
+
+Login
+
+</button>
+
+
+<button
+class="btn"
+onclick="closeAdminLogin()">
+
+Cancel
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= EDIT MODAL ================= -->
+
+<div id="editModal" class="modal">
+
+<div class="modal-content">
+
+<span
+class="close"
+onclick="closeModal()">
+
+&times;
+
+</span>
+
+<h2>
+✏️ Edit Complaint
+</h2>
+
+<br>
+
+<input
+type="hidden"
+id="editId">
+
+
+<div class="form-group">
+
+<label>Name</label>
+
+<input
+type="text"
+id="editName">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Crime Type</label>
+
+<input
+type="text"
+id="editCrime">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Location</label>
+
+<input
+type="text"
+id="editLocation">
+
+</div>
+
+
+<div class="form-group">
+
+<label>Description</label>
+
+<textarea
+id="editDescription">
+</textarea>
+
+</div>
+
+
+<button
+class="btn"
+onclick="saveEdit()">
+
+Save Changes
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= PRINT AREA ================= -->
+
+<div
+id="printArea"
+style="display:none;">
+</div>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+<p>
+© 2026 Crime Record & Police Complaint Management System
+</p>
+
+<p>
+BSc Computer Science Mini Project
+</p>
+
+</footer>
+
+
+<script>
+
+
+/* =========================================
+   PAGE NAVIGATION
+========================================= */
+
+function showPage(page){
+
+    /*
+       Admin page is protected.
+    */
+
+    if(
+        page === "admin" &&
+        sessionStorage.getItem("adminLoggedIn") !== "true"
+    ){
+
+        openAdminLogin();
+
+        return;
+    }
+
+
+    document
+    .querySelectorAll(".page")
+    .forEach(function(p){
+
+        p.classList.remove("active");
+
+    });
+
+
+    const target =
+    document.getElementById(page);
+
+
+    if(!target){
+        return;
+    }
+
+
+    target.classList.add("active");
+
+
+    if(page === "admin"){
+
+        loadDashboard();
+
+    }
+
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =========================================
+   LOCAL STORAGE
+========================================= */
+
+function getComplaints(){
+
+    return JSON.parse(
+        localStorage.getItem("complaints") || "[]"
+    );
+
+}
+
+
+function saveComplaints(data){
+
+    localStorage.setItem(
+        "complaints",
+        JSON.stringify(data)
+    );
+
+}
+
+
+function getFIRs(){
+
+    return JSON.parse(
+        localStorage.getItem("firs") || "[]"
+    );
+
+}
+
+
+function saveFIRs(data){
+
+    localStorage.setItem(
+        "firs",
+        JSON.stringify(data)
+    );
+
+}
+
+
+/* =========================================
+   COMPLAINT REGISTRATION
+========================================= */
+
+document
+.getElementById("complaintForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+
+    let complaints =
+    getComplaints();
+
+
+    let id =
+    "CR-" + (1001 + complaints.length);
+
+
+    let complaint = {
+
+        id:id,
+
+        name:
+        document.getElementById("cName").value,
+
+        mobile:
+        document.getElementById("cMobile").value,
+
+        email:
+        document.getElementById("cEmail").value,
+
+        crime:
+        document.getElementById("cCrime").value,
+
+        location:
+        document.getElementById("cLocation").value,
+
+        date:
+        document.getElementById("cDate").value,
+
+        description:
+        document.getElementById("cDescription").value,
+
+        status:"Pending"
+
+    };
+
+
+    complaints.push(complaint);
+
+    saveComplaints(complaints);
+
+
+    let alertBox =
+    document.getElementById("complaintAlert");
+
+
+    alertBox.style.display="block";
+
+    alertBox.className="alert success";
+
+    alertBox.innerHTML =
+    "✅ Complaint registered successfully! " +
+    "Your Complaint ID is <strong>" +
+    id +
+    "</strong>";
+
+
+    document
+    .getElementById("complaintForm")
+    .reset();
+
+});
+
+
+/* =========================================
+   FIR REGISTRATION
+========================================= */
+
+document
+.getElementById("firForm")
+.addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+
+    let firs =
+    getFIRs();
+
+
+    let id =
+    "FIR-" + (5001 + firs.length);
+
+
+    let fir = {
+
+        id:id,
+
+        name:
+        document.getElementById("fName").value,
+
+        station:
+        document.getElementById("fStation").value,
+
+        crime:
+        document.getElementById("fCrime").value,
+
+        date:
+        document.getElementById("fDate").value,
+
+        location:
+        document.getElementById("fLocation").value,
+
+        description:
+        document.getElementById("fDescription").value
+
+    };
+
+
+    firs.push(fir);
+
+    saveFIRs(firs);
+
+
+    let alertBox =
+    document.getElementById("firAlert");
+
+
+    alertBox.style.display="block";
+
+    alertBox.className="alert success";
+
+    alertBox.innerHTML =
+    "✅ FIR registered successfully! " +
+    "Your FIR Number is <strong>" +
+    id +
+    "</strong>";
+
+
+    document
+    .getElementById("firForm")
+    .reset();
+
+});
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+function searchRecord(){
+
+    let id =
+    document.getElementById("searchId")
+    .value
+    .trim()
+    .toUpperCase();
+
+
+    let result =
+    document.getElementById("searchResult");
+
+
+    result.style.display="block";
+
+
+    if(id === ""){
+
+        result.innerHTML =
+        "❌ Please enter Complaint ID or FIR Number.";
+
+        return;
+    }
+
+
+    let complaints =
+    getComplaints();
+
+
+    let complaint =
+    complaints.find(
+        c => c.id.toUpperCase() === id
+    );
+
+
+    if(complaint){
+
+        result.innerHTML = `
+
+        <h3>Complaint Details</h3>
+
+        <p>
+        <strong>Complaint ID:</strong>
+        ${complaint.id}
+        </p>
+
+        <p>
+        <strong>Name:</strong>
+        ${complaint.name}
+        </p>
+
+        <p>
+        <strong>Crime:</strong>
+        ${complaint.crime}
+        </p>
+
+        <p>
+        <strong>Location:</strong>
+        ${complaint.location}
+        </p>
+
+        <p>
+        <strong>Date:</strong>
+        ${complaint.date}
+        </p>
+
+        <p>
+        <strong>Status:</strong>
+        ${complaint.status}
+        </p>
+
+        <p>
+        <strong>Description:</strong>
+        ${complaint.description}
+        </p>
+
+        <button
+        class="btn blue-btn"
+        onclick="printComplaint('${complaint.id}')">
+
+        🧾 Print Complaint
+
+        </button>
+
+        `;
+
+        return;
+    }
+
+
+    let firs =
+    getFIRs();
+
+
+    let fir =
+    firs.find(
+        f => f.id.toUpperCase() === id
+    );
+
+
+    if(fir){
+
+        result.innerHTML = `
+
+        <h3>FIR Details</h3>
+
+        <p>
+        <strong>FIR Number:</strong>
+        ${fir.id}
+        </p>
+
+        <p>
+        <strong>Complainant:</strong>
+        ${fir.name}
+        </p>
+
+        <p>
+        <strong>Police Station:</strong>
+        ${fir.station}
+        </p>
+
+        <p>
+        <strong>Crime:</strong>
+        ${fir.crime}
+        </p>
+
+        <p>
+        <strong>Date:</strong>
+        ${fir.date}
+        </p>
+
+        <p>
+        <strong>Location:</strong>
+        ${fir.location}
+        </p>
+
+        <p>
+        <strong>Description:</strong>
+        ${fir.description}
+        </p>
+
+        <button
+        class="btn blue-btn"
+        onclick="printFIR('${fir.id}')">
+
+        🧾 Print FIR
+
+        </button>
+
+        `;
+
+        return;
+    }
+
+
+    result.innerHTML =
+    "❌ No record found. Please check the ID.";
+
+}
+
+
+/* =========================================
+   ADMIN DASHBOARD
+========================================= */
+
+function loadDashboard(){
+
+    let complaints =
+    getComplaints();
+
+
+    let firs =
+    getFIRs();
+
+
+    document.getElementById("total")
+    .innerText =
+    complaints.length;
+
+
+    document.getElementById("pending")
+    .innerText =
+    complaints.filter(
+        c => c.status === "Pending"
+    ).length;
+
+
+    document.getElementById("investigating")
+    .innerText =
+    complaints.filter(
+        c => c.status === "Investigating"
+    ).length;
+
+
+    document.getElementById("resolved")
+    .innerText =
+    complaints.filter(
+        c => c.status === "Resolved"
+    ).length;
+
+
+    document.getElementById("firCount")
+    .innerText =
+    firs.length;
+
+
+    let table =
+    document.getElementById("adminTable");
+
+
+    table.innerHTML="";
+
+
+    if(complaints.length === 0){
+
+        table.innerHTML = `
+
+        <tr>
+
+        <td
+        colspan="7"
+        style="text-align:center;">
+
+        No complaints available.
+
+        </td>
+
+        </tr>
+
+        `;
+
+        return;
+    }
+
+
+    complaints.forEach(function(c){
+
+        let row =
+        document.createElement("tr");
+
+
+        row.innerHTML = `
+
+        <td>${c.id}</td>
+
+        <td>${c.name}</td>
+
+        <td>${c.crime}</td>
+
+        <td>${c.location}</td>
+
+        <td>${c.date}</td>
+
+        <td>
+
+        <select
+        onchange="updateStatus('${c.id}',this.value)">
+
+        <option
+        ${c.status==="Pending" ? "selected" : ""}>
+        Pending
+        </option>
+
+        <option
+        ${c.status==="Investigating" ? "selected" : ""}>
+        Investigating
+        </option>
+
+        <option
+        ${c.status==="Resolved" ? "selected" : ""}>
+        Resolved
+        </option>
+
+        </select>
+
+        </td>
+
+        <td>
+
+        <button
+        class="btn"
+        onclick="editComplaint('${c.id}')">
+
+        Edit
+
+        </button>
+
+        <button
+        class="btn red-btn"
+        onclick="deleteComplaint('${c.id}')">
+
+        Delete
+
+        </button>
+
+        <button
+        class="btn blue-btn"
+        onclick="printComplaint('${c.id}')">
+
+        Print
+
+        </button>
+
+        </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+/* =========================================
+   UPDATE STATUS
+========================================= */
+
+function updateStatus(id,status){
+
+    let complaints =
+    getComplaints();
+
+
+    let complaint =
+    complaints.find(
+        c => c.id === id
+    );
+
+
+    if(complaint){
+
+        complaint.status =
+        status;
+
+        saveComplaints(
+            complaints
+        );
+
+        loadDashboard();
+
+    }
+
+}
+
+
+/* =========================================
+   EDIT COMPLAINT
+========================================= */
+
+function editComplaint(id){
+
+    let complaints =
+    getComplaints();
+
+
+    let c =
+    complaints.find(
+        x => x.id === id
+    );
+
+
+    if(!c){
+        return;
+    }
+
+
+    document.getElementById("editId")
+    .value = c.id;
+
+
+    document.getElementById("editName")
+    .value = c.name;
+
+
+    document.getElementById("editCrime")
+    .value = c.crime;
+
+
+    document.getElementById("editLocation")
+    .value = c.location;
+
+
+    document.getElementById("editDescription")
+    .value = c.description;
+
+
+    document.getElementById("editModal")
+    .style.display = "block";
+
+}
+
+
+function closeModal(){
+
+    document.getElementById("editModal")
+    .style.display = "none";
+
+}
+
+
+function saveEdit(){
+
+    let id =
+    document.getElementById("editId")
+    .value;
+
+
+    let complaints =
+    getComplaints();
+
+
+    let c =
+    complaints.find(
+        x => x.id === id
+    );
+
+
+    if(c){
+
+        c.name =
+        document.getElementById("editName")
+        .value;
+
+
+        c.crime =
+        document.getElementById("editCrime")
+        .value;
+
+
+        c.location =
+        document.getElementById("editLocation")
+        .value;
+
+
+        c.description =
+        document.getElementById("editDescription")
+        .value;
+
+
+        saveComplaints(
+            complaints
+        );
+
+
+        closeModal();
+
+        loadDashboard();
+
+
+        alert(
+            "Complaint updated successfully!"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   DELETE
+========================================= */
+
+function deleteComplaint(id){
+
+    let answer =
+    confirm(
+        "Are you sure you want to delete complaint "
+        + id + "?"
+    );
+
+
+    if(!answer){
+        return;
+    }
+
+
+    let complaints =
+    getComplaints();
+
+
+    complaints =
+    complaints.filter(
+        c => c.id !== id
+    );
+
+
+    saveComplaints(
+        complaints
+    );
+
+
+    loadDashboard();
+
+}
+
+
+/* =========================================
+   PRINT COMPLAINT
+========================================= */
+
+function printComplaint(id){
+
+    let complaints =
+    getComplaints();
+
+
+    let c =
+    complaints.find(
+        x => x.id === id
+    );
+
+
+    if(!c){
+        return;
+    }
+
+
+    let printArea =
+    document.getElementById("printArea");
+
+
+    printArea.style.display =
+    "block";
+
+
+    printArea.innerHTML = `
+
+    <div class="receipt">
+
+    <h2>
+    POLICE COMPLAINT RECEIPT
+    </h2>
+
+    <h3>
+    Crime Record & Police Complaint Management System
+    </h3>
+
+    <hr>
+
+    <p>
+    <strong>Complaint ID:</strong>
+    ${c.id}
+    </p>
+
+    <p>
+    <strong>Complainant Name:</strong>
+    ${c.name}
+    </p>
+
+    <p>
+    <strong>Mobile:</strong>
+    ${c.mobile}
+    </p>
+
+    <p>
+    <strong>Email:</strong>
+    ${c.email}
+    </p>
+
+    <p>
+    <strong>Crime Type:</strong>
+    ${c.crime}
+    </p>
+
+    <p>
+    <strong>Incident Location:</strong>
+    ${c.location}
+    </p>
+
+    <p>
+    <strong>Incident Date:</strong>
+    ${c.date}
+    </p>
+
+    <p>
+    <strong>Status:</strong>
+    ${c.status}
+    </p>
+
+    <hr>
+
+    <p>
+    <strong>Description:</strong>
+    </p>
+
+    <p>
+    ${c.description}
+    </p>
+
+    <br>
+
+    <p>
+    This is a computer-generated demo receipt.
+    </p>
+
+    </div>
+
+    `;
+
+
+    window.print();
+
+
+    printArea.style.display =
+    "none";
+
+}
+
+
+/* =========================================
+   PRINT FIR
+========================================= */
+
+function printFIR(id){
+
+    let firs =
+    getFIRs();
+
+
+    let f =
+    firs.find(
+        x => x.id === id
+    );
+
+
+    if(!f){
+        return;
+    }
+
+
+    let printArea =
+    document.getElementById("printArea");
+
+
+    printArea.style.display =
+    "block";
+
+
+    printArea.innerHTML = `
+
+    <div class="receipt">
+
+    <h2>
+    FIRST INFORMATION REPORT
+    </h2>
+
+    <h3>
+    Police Complaint Management System
+    </h3>
+
+    <hr>
+
+    <p>
+    <strong>FIR Number:</strong>
+    ${f.id}
+    </p>
+
+    <p>
+    <strong>Complainant:</strong>
+    ${f.name}
+    </p>
+
+    <p>
+    <strong>Police Station:</strong>
+    ${f.station}
+    </p>
+
+    <p>
+    <strong>Crime Type:</strong>
+    ${f.crime}
+    </p>
+
+    <p>
+    <strong>Incident Date:</strong>
+    ${f.date}
+    </p>
+
+    <p>
+    <strong>Incident Location:</strong>
+    ${f.location}
+    </p>
+
+    <hr>
+
+    <p>
+    <strong>FIR Description:</strong>
+    </p>
+
+    <p>
+    ${f.description}
+    </p>
+
+    <br>
+
+    <p>
+    This is a computer-generated demo FIR.
+    </p>
+
+    </div>
+
+    `;
+
+
+    window.print();
+
+
+    printArea.style.display =
+    "none";
+
+}
+
+
+/* =========================================
+   ADMIN LOGIN
+========================================= */
+
+function openAdminLogin(){
+
+    const modal =
+    document.getElementById(
+        "adminLoginModal"
+    );
+
+
+    const alertBox =
+    document.getElementById(
+        "loginAlert"
+    );
+
+
+    if(!modal){
+        return;
+    }
+
+
+    modal.style.display =
+    "block";
+
+
+    document.getElementById(
+        "adminUsername"
+    ).value = "";
+
+
+    document.getElementById(
+        "adminPassword"
+    ).value = "";
+
+
+    alertBox.style.display =
+    "none";
+
+
+    alertBox.innerHTML =
+    "";
+
+
+    setTimeout(function(){
+
+        document.getElementById(
+            "adminUsername"
+        ).focus();
+
+    },100);
+
+}
+
+
+function closeAdminLogin(){
+
+    const modal =
+    document.getElementById(
+        "adminLoginModal"
+    );
+
+
+    if(modal){
+
+        modal.style.display =
+        "none";
+
+    }
+
+}
+
+
+function adminLogin(){
+
+    const username =
+    document.getElementById(
+        "adminUsername"
+    ).value.trim();
+
+
+    const password =
+    document.getElementById(
+        "adminPassword"
+    ).value;
+
+
+    const alertBox =
+    document.getElementById(
+        "loginAlert"
+    );
+
+
+    /*
+       DEMO ADMIN CREDENTIALS
+
+       Username: admin
+       Password: 1234
+
+       These credentials are intentionally
+       NOT displayed on the login screen.
+    */
+
+    if(
+        username === "admin" &&
+        password === "1234"
+    ){
+
+        sessionStorage.setItem(
+            "adminLoggedIn",
+            "true"
+        );
+
+
+        closeAdminLogin();
+
+
+        showPage("admin");
+
+
+        alert(
+            "Admin login successful!"
+        );
+
+    }
+
+    else{
+
+        alertBox.style.display =
+        "block";
+
+
+        alertBox.className =
+        "alert error";
+
+
+        alertBox.innerHTML =
+        "❌ Invalid username or password.";
+
+    }
+
+}
+
+
+/* =========================================
+   CLOSE LOGIN BY CLICKING OUTSIDE
+========================================= */
+
+window.addEventListener(
+    "click",
+    function(event){
+
+        const modal =
+        document.getElementById(
+            "adminLoginModal"
+        );
+
+
+        if(
+            event.target === modal
+        ){
+
+            closeAdminLogin();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   KEYBOARD SUPPORT
+========================================= */
+
+document.addEventListener(
+    "keydown",
+    function(e){
+
+        const modal =
+        document.getElementById(
+            "adminLoginModal"
+        );
+
+
+        if(
+            e.key === "Escape" &&
+            modal &&
+            modal.style.display === "block"
+        ){
+
+            closeAdminLogin();
+
+        }
+
+
+        if(
+            e.key === "Enter" &&
+            modal &&
+            modal.style.display === "block"
+        ){
+
+            adminLogin();
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+function logout(){
+
+    sessionStorage.removeItem(
+        "adminLoggedIn"
+    );
+
+
+    alert(
+        "Admin logout successful."
+    );
+
+
+    showPage("home");
+
+}
+
+
+/* =========================================
+   DEMO DATA
+========================================= */
+
+function createDemoData(){
+
+    let complaints =
+    getComplaints();
+
+
+    if(complaints.length === 0){
+
+        complaints = [
+
+        {
+            id:"CR-1001",
+            name:"Rahul Patil",
+            mobile:"9876543210",
+            email:"rahul@example.com",
+            crime:"Theft",
+            location:"Mumbai",
+            date:"2026-08-20",
+            description:
+            "Mobile phone theft complaint.",
+            status:"Pending"
+        },
+
+        {
+            id:"CR-1002",
+            name:"Amit Sharma",
+            mobile:"9876501234",
+            email:"amit@example.com",
+            crime:"Cyber Crime",
+            location:"Bhandup",
+            date:"2026-08-22",
+            description:
+            "Online payment fraud complaint.",
+            status:"Investigating"
+        },
+
+        {
+            id:"CR-1003",
+            name:"Priya Singh",
+            mobile:"9876123456",
+            email:"priya@example.com",
+            crime:"Fraud",
+            location:"Ghatkopar",
+            date:"2026-08-25",
+            description:
+            "Fraudulent transaction reported.",
+            status:"Resolved"
+        }
+
+        ];
+
+
+        saveComplaints(
+            complaints
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   DATE LIMIT
+========================================= */
+
+(function(){
+
+    const today =
+    new Date()
+    .toISOString()
+    .split("T")[0];
+
+
+    ["cDate","fDate"]
+    .forEach(function(id){
+
+        const el =
+        document.getElementById(id);
+
+
+        if(el){
+
+            el.max =
+            today;
+
+        }
+
+    });
+
+})();
+
+
+/* =========================================
+   START DEMO DATA
+========================================= */
+
+createDemoData();
+
+</script>
+
+</body>
+
+</html>
